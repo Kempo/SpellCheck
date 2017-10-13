@@ -1,1 +1,2 @@
 # TextPredictor
+simple word predictor
