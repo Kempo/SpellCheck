@@ -35,6 +35,8 @@ public class Words {
 	public ArrayList<String> getLoadedWords() {
 		return wordList;
 	}
+
+
 	// 1) returns a list of words that have the same first and last letter
 	public ArrayList<String> getGroupBasedOnTerminalLetter(String word) {
 		ArrayList<String> group = new ArrayList<String>();
@@ -95,12 +97,14 @@ public class Words {
 		}
 		return syllables;
 	}
+
 	private boolean isVowel(char c) {
 		if(c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y') {
 			return true;
 		}
 		return false;
 	}
+
 	private int getSyllablesFromPair(char v, char v1) {
 		String i = v + "" + v1; // supposedly an inefficient way of doing so, maybe improve later
 		String[] pone = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU"}; // one syllable vowel pairs
