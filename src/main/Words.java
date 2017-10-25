@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 /**
- * 
  * @author Aaron
  *
  */
@@ -53,11 +53,11 @@ public class Words {
 
 	// 2) returns a list of words that have the same # of syllables
 	public ArrayList<String> getGroupBySyllables(String word, ArrayList<String> wordsByTerminalLetter) {
-		ArrayList<String> group = new ArrayList<String>();
+		ArrayList<String> group = new ArrayList<>();
 		int originalSyllables = getSyllables(word);
 		for(String w : wordsByTerminalLetter) {
-			int s = getSyllables(word);
-			if(originalSyllables == s) {
+			int sampleNum = getSyllables(w);
+			if(originalSyllables == sampleNum) {
 				group.add(w);
 			}
 		}
@@ -69,7 +69,7 @@ public class Words {
      * @param word
      * @return number of syllables in word
      */
-	private int getSyllables(String word) {
+	public int getSyllables(String word) {
 		word = word.toUpperCase();
 		int syllables = 0; // number of syllables our input word has
 		char[] vowels = {'A','E','I','O','U','Y'};
@@ -79,7 +79,7 @@ public class Words {
 		note: 'y' at the end is a syllable,
 		**/
 		char[] characters = word.toCharArray();
-		
+
 		for(int i = 0; i <= characters.length - 1; i++) {
 			for(char v : vowels){
 				if(characters[i] == v) {
@@ -133,13 +133,14 @@ public class Words {
 	public HashMap<String,Double> getGroupBasedOnPercentage(String word, ArrayList<String> wordsBySyllables) {
         char[] inputCharacters = word.toCharArray();
         HashMap<String, Double> group = new HashMap<String, Double>();
-        for (String sampleWord : wordsBySyllables) { // loops through the words with both first and last letter the same
+        for (String sampleWord : wordsBySyllables) { // loops a list of words with the same # of syllables
             char[] sampleCharacters = sampleWord.toCharArray(); // the word taken from the list
-            int letterDiff = word.length() - sampleWord.length();
+            int letterDiff = Math.abs(word.length() - sampleWord.length());
             int similarities = 0; // to compensate for the first and last letter
             // note, remember to end the method after these if statements are done. so it doesn't go on.
 
-            if (letterDiff == 0) { // if the words are the same exact length.
+            if (letterDiff == 0) { // if the comparison involves words of the same length
+				System.out.println(sampleWord);
                 for (int i = 0; i < sampleCharacters.length; i++) {
                     if (sampleCharacters[i] == inputCharacters[i]) {
                         similarities++;
@@ -152,12 +153,20 @@ public class Words {
                 }
             }
 
-
-            if ((letterDiff < 0) && (letterDiff >= -2)) { // if the sample word is bigger and has a difference less than two
-
-            }
-            if (letterDiff > 0 && (letterDiff <= 2)) { // if the sample word is smaller and has difference less than two
-
+            if ((letterDiff > 0) && letterDiff <= 2) { // if the sample word has a difference less than two
+				int i = 0;
+				for(char c : sampleWord.toCharArray()) {
+					if(word.indexOf(c,i) >= 0) { // if the character in our sample word is inside the input word
+						similarities++;
+					}
+					if(word.length() <= i) {
+						i += 1;
+					}
+				}
+				double percent = ((double) similarities / (word.length()));
+				if(percent >= .5) {
+					group.put(sampleWord, percent);
+				}
             }
         }
         return group;

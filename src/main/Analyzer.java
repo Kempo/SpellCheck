@@ -102,7 +102,6 @@ public class Analyzer {
 	private List<String> getBestWord(String inputWord) {
 		List<String> recommended = new ArrayList<>();
 		double percent = 0;
-		System.out.println(wordsInstance.getGroupBasedOnTerminalLetter(inputWord).size());
 		HashMap<String,Double> wordGroup = wordsInstance.getGroupBasedOnPercentage(inputWord, wordsInstance.getGroupBySyllables(inputWord, wordsInstance.getGroupBasedOnTerminalLetter(inputWord)));
 		for(Map.Entry<String, Double> word : wordGroup.entrySet()) {
 			if(word.getValue() > percent){
