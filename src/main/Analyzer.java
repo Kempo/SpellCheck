@@ -9,7 +9,6 @@ import java.util.*;
  * 
  * @author Aaron
  * text analyzer that will predict user input based on incorrectly spelled sentences or words.
- * assuming these are correctly formatted sentences(1 space separation)
  * 
  * algorithm:
  * 1) based on first letter
@@ -23,9 +22,8 @@ import java.util.*;
  * Pigeon
  * 
  * epephany
- * ephiphany
+ * Epiphany
  *
- * 
  * TODO:
  * - add a graphical user interface (incorporate javaFX because it's easier to use?)
  * - another additional method to use could be similar pronunciations s such as 'k' instead of 'c' or such. (more than just one letter differences)
@@ -37,12 +35,12 @@ public class Analyzer {
 	private String[] userInput; // in case I want to make input more than just one word
 	private String[] predictedInput;
 	private Scanner scanner = new Scanner(System.in);
-	private Words wordsInstance = new Words();
+	private Words wordsInstance;
 
-
-	public void start() throws IOException {
-        wordsInstance.loadList();
-
+	public void start(Words words) throws IOException {
+		if(words != wordsInstance) {
+			wordsInstance = words;
+		}
 		System.out.println("Please enter a word.");
 		String line = scanner.nextLine();
 		userInput = line.split(" ");
@@ -51,7 +49,7 @@ public class Analyzer {
 		System.out.println("New word? Y/N.");
 		line = scanner.nextLine();
 		if(line.equalsIgnoreCase("Y")) {
-			start();
+			start(wordsInstance);
 		}
 	}
 
@@ -77,7 +75,6 @@ public class Analyzer {
 		return true;
 	}
 	/**
-	 * 
 	 * please edit this structure. using a string array just doesn't seem like it's very appropriate
 	 */
 	private String[] loopWords(String[] input) {
@@ -87,7 +84,6 @@ public class Analyzer {
 			if(correct) {
 				return pi; // returns the same word because it's correctly spelled
 			}else{
-				if(!correct) {
 					int i = 1;
 					List<String> words = getBestWord(pi[0]);
 					pi[0] = ""; // clears the original input
@@ -96,7 +92,6 @@ public class Analyzer {
 						i++;
 					}
 					return pi;
-				}
 			}
 		}else{
 			// have not looked into multiple words yet
@@ -107,6 +102,7 @@ public class Analyzer {
 	private List<String> getBestWord(String inputWord) {
 		List<String> recommended = new ArrayList<>();
 		double percent = 0;
+		System.out.println(wordsInstance.getGroupBasedOnTerminalLetter(inputWord).size());
 		HashMap<String,Double> wordGroup = wordsInstance.getGroupBasedOnPercentage(inputWord, wordsInstance.getGroupBySyllables(inputWord, wordsInstance.getGroupBasedOnTerminalLetter(inputWord)));
 		for(Map.Entry<String, Double> word : wordGroup.entrySet()) {
 			if(word.getValue() > percent){
@@ -114,6 +110,7 @@ public class Analyzer {
 				recommended.add(word.getKey());
 			}
 		}
+
 		return recommended;
 	}
 }

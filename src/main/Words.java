@@ -13,10 +13,11 @@ import java.util.HashMap;
  */
 public class Words {
 	private ArrayList<String> wordList = new ArrayList<String>();
+    private String source = "http://app.aspell.net/create?max_size=95&spelling=US&spelling=GBs&spelling=GBz&spelling=CA&spelling=AU&max_variant=0&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline";
+
 	public void loadList() throws IOException {
-		URL url = new URL("http://app.aspell.net/create?max_size=95&spelling=US&spelling=GBs&spelling=GBz&spelling=CA&spelling=AU&max_variant=0&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline");
-        BufferedReader in = new BufferedReader(
-        new InputStreamReader(url.openStream()));
+		URL url = new URL(source);
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
         	if(!inputLine.isEmpty()) {
@@ -39,7 +40,7 @@ public class Words {
 
 	// 1) returns a list of words that have the same first and last letter
 	public ArrayList<String> getGroupBasedOnTerminalLetter(String word) {
-		ArrayList<String> group = new ArrayList<String>();
+		ArrayList<String> group = new ArrayList<>();
 		String first = String.valueOf(word.charAt(0));
 		String last = word.substring(word.length()-1);
 		for(String s : wordList) {
@@ -49,7 +50,8 @@ public class Words {
 		}
 		return group;
 	}
-	// 2)
+
+	// 2) returns a list of words that have the same # of syllables
 	public ArrayList<String> getGroupBySyllables(String word, ArrayList<String> wordsByTerminalLetter) {
 		ArrayList<String> group = new ArrayList<String>();
 		int originalSyllables = getSyllables(word);
@@ -59,9 +61,14 @@ public class Words {
 				group.add(w);
 			}
 		}
-		
 		return group;
 	}
+
+    /**
+     *
+     * @param word
+     * @return number of syllables in word
+     */
 	private int getSyllables(String word) {
 		word = word.toUpperCase();
 		int syllables = 0; // number of syllables our input word has
@@ -107,8 +114,8 @@ public class Words {
 
 	private int getSyllablesFromPair(char v, char v1) {
 		String i = v + "" + v1; // supposedly an inefficient way of doing so, maybe improve later
-		String[] pone = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU"}; // one syllable vowel pairs
-		String[] tone = {"UA", "IO", "OA"};
+		String[] pone = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU", "EY"}; // one syllable vowel pairs
+		String[] tone = {"UA", "IO", "OA"}; // two syllable vowel pairs
 		for(String s : pone) {
 			if(i.equalsIgnoreCase(s)) {
 				return 1; 
@@ -122,35 +129,37 @@ public class Words {
 		return 0;
 	}
 	
-	// 3) returns a hashmap with words and their % closest to target word.
+	// 3) returns a hash map with words and their % closest to target word.
 	public HashMap<String,Double> getGroupBasedOnPercentage(String word, ArrayList<String> wordsBySyllables) {
-		char[] inputCharacters = word.toCharArray();
-		HashMap<String,Double> group = new HashMap<String, Double>();
-		for(String sampleWord : wordsBySyllables) { // loops through the words with both first and last letter the same
-			char[] sampleCharacters = sampleWord.toCharArray(); // the word taken from the list
-			int letterDiff = word.length() - sampleWord.length();
-			int similarities = 0; // to compensate for the first and last letter
-			// note, remember to end the method after these if statements are done. so it doesn't go on.
-			if(letterDiff == 0) { // if the words are the same exact length.
-				for(int i = 0; i < sampleCharacters.length; i++) {
-					if(sampleCharacters[i] == inputCharacters[i]) {
-						similarities++;
-					}
-				}
-				double percent = ((double)similarities / (word.length()));
-				if((percent >= .5)) { /** change, make it more efficient than just bigger than .5 **/
-					group.put(sampleWord, percent);
-				}
-			}
-			if((letterDiff < 0) && (letterDiff >= -2)) { // if the sample word is bigger and has a difference less than two
-				
-			}
-			if(letterDiff > 0 && (letterDiff <= 2)) { // if the sample word is smaller and has difference less than two
-				
-			}
-		}
-		return group;
-	}
-	
-	
+        char[] inputCharacters = word.toCharArray();
+        HashMap<String, Double> group = new HashMap<String, Double>();
+        for (String sampleWord : wordsBySyllables) { // loops through the words with both first and last letter the same
+            char[] sampleCharacters = sampleWord.toCharArray(); // the word taken from the list
+            int letterDiff = word.length() - sampleWord.length();
+            int similarities = 0; // to compensate for the first and last letter
+            // note, remember to end the method after these if statements are done. so it doesn't go on.
+
+            if (letterDiff == 0) { // if the words are the same exact length.
+                for (int i = 0; i < sampleCharacters.length; i++) {
+                    if (sampleCharacters[i] == inputCharacters[i]) {
+                        similarities++;
+                    }
+                }
+                double percent = ((double) similarities / (word.length()));
+
+                if ((percent >= .5)) {
+                    group.put(sampleWord, percent);
+                }
+            }
+
+
+            if ((letterDiff < 0) && (letterDiff >= -2)) { // if the sample word is bigger and has a difference less than two
+
+            }
+            if (letterDiff > 0 && (letterDiff <= 2)) { // if the sample word is smaller and has difference less than two
+
+            }
+        }
+        return group;
+    }
 }
