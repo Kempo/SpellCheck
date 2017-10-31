@@ -116,7 +116,8 @@ public class Organizer {
     private int getSyllablesFromPair(char v, char v1) {
         String i = v + "" + v1; // supposedly an inefficient way of doing so, maybe improve later
         String[] pone = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU", "EY"}; // one syllable vowel pairs
-        String[] tone = {"UA", "IO", "OA"}; // two syllable vowel pairs
+        String[] tone = {"IO", "OA", "UA"}; // two syllable vowel pairs
+        String[] varying = {}; // vowel pairs that may vary in syllables according to the word such as UA
         for (String s : pone) {
             if (i.equalsIgnoreCase(s)) {
                 return 1;

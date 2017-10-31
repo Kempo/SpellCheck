@@ -56,26 +56,38 @@ public class Analyzer {
     private void display() {
         if (!isDuplicate(userInput, predictedInput)) {
             System.out.println("input: " + userInput);
-            System.out.println("predictions: " + predictedInput.toString()); // FIX FIX FIX
+            String list = "";
+
+            int i = 1;
+            for (Word w : predictedInput) {
+                list += w.getWord() + (i != 6 ? ", " : ".");
+                i += 1;
+                if(i > 6) { // returns the top 6 choices for the word
+                    break;
+                }
+            }
+
+            System.out.println("predictions: " + list);
+
         } else {
             System.out.println("Correctly spelled text.");
         }
     }
 
     private boolean isDuplicate(String userInput, List<Word> predicted) {
-        for(Word word : predicted) {
-            if(word.getWord().equalsIgnoreCase(userInput)) {
+        for (Word word : predicted) {
+            if (word.getWord().equalsIgnoreCase(userInput)) {
                 return true;
             }
         }
         return false;
     }
 
-
     private List<Word> getWordList(String inputWord) {
         List<Word> wordGroup = organizerInstance.getGroupBasedOnPercentage(inputWord, organizerInstance.getGroupBySyllables(inputWord, organizerInstance.getGroupBasedOnTerminalLetter(inputWord)));
-        Collections.sort(wordGroup, new SimilarityComparator());
-        for(Word w : wordGroup) {
+        Collections.sort(wordGroup, new SimilarityComparator()); // sorts the list
+        Collections.reverse(wordGroup); // reverses order so the first object is closest
+        for (Word w : wordGroup) {
             System.out.println(w.getWord() + " " + w.getPercent());
         }
         return wordGroup;
