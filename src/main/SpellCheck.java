@@ -1,7 +1,7 @@
 package main;
 
 
-public class TextPredictor {
+public class SpellCheck {
     private static Analyzer analyzer;
     private static Organizer organizerInstance;
 
