@@ -27,7 +27,7 @@ import java.util.*;
  * TODO:
  * - add a graphical user interface (incorporate javaFX because it's easier to use?)
  * - another additional method to use could be similar pronunciations s such as 'k' instead of 'c' or such. (more than just one letter differences)
- * - update it so you can use sentences? have it display multiple options of a sentence?
+ * - update it so you can use sentences. perhaps, multiple options of the sentence
  */
 
 
@@ -87,9 +87,6 @@ public class Analyzer {
         List<Word> wordGroup = organizerInstance.getGroupBasedOnPercentage(inputWord, organizerInstance.getGroupBySyllables(inputWord, organizerInstance.getGroupBasedOnTerminalLetter(inputWord)));
         Collections.sort(wordGroup, new SimilarityComparator()); // sorts the list
         Collections.reverse(wordGroup); // reverses order so the first object is closest
-        for (Word w : wordGroup) {
-            System.out.println(w.getWord() + " " + w.getPercent());
-        }
         return wordGroup;
     }
 }

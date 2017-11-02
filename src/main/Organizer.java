@@ -89,7 +89,7 @@ public class Organizer {
                         if (!isVowel(nextChar)) { // if a vowel is alone
                             syllables++;
                         } else {
-                            syllables += getSyllablesFromPair(characters[i], characters[i + 1]);
+                            syllables += getSyllablesFromPair(characters, i, i+1);
                             if ((i + 1) != characters.length - 1) { // if the vowel is not the last character in the word
                                 i += 2; // move up index two spaces in order to skip the two letters that have been already examined
                             }
@@ -113,18 +113,31 @@ public class Organizer {
         return false;
     }
 
-    private int getSyllablesFromPair(char v, char v1) {
-        String i = v + "" + v1; // supposedly an inefficient way of doing so, maybe improve later
-        String[] pone = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU", "EY"}; // one syllable vowel pairs
-        String[] tone = {"IO", "OA", "UA"}; // two syllable vowel pairs
-        String[] varying = {}; // vowel pairs that may vary in syllables according to the word such as UA
-        for (String s : pone) {
-            if (i.equalsIgnoreCase(s)) {
+    private int getSyllablesFromPair(char[] characters, int i, int i1) {
+        String pair = characters[i] + "" + characters[i1]; // supposedly an inefficient way of doing so, maybe improve later
+        String[] one = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU", "EY"}; // one syllable vowel pairs
+        String[] two = {"IO", "OA"}; // two syllable vowel pairs
+        String[] varying = {"UA"}; // vowel pairs that may vary in syllables according to the word such as UA
+        // guanine, antisexual, sensual, guard, manual, lingua
+        // IF THE LETTER before UA is part of another vowel 'sound' then UA is two vowels. if the letter isn't part of a vowel sound, UA = 1
+        for(String s : varying) {
+            if(pair.equalsIgnoreCase(s)) {
+                if((i != 0)) { // if the pair is not the first two characters of the word; it shouldn't be i think
+                    if(((i-1) == 0) || ((i1) == (characters.length - 1)) || ((i1 + 1) == (characters.length-1))) { // if the character before the pair is the first letter or if the character after the pair is the last or if the pair is the last part to the word
+                        return 1;
+                    }else{
+                        return 2;
+                    }
+                }
+            }
+        }
+        for (String s : one) {
+            if (pair.equalsIgnoreCase(s)) {
                 return 1;
             }
         }
-        for (String s : tone) {
-            if (i.equalsIgnoreCase(s)) {
+        for (String s : two) {
+            if (pair.equalsIgnoreCase(s)) {
                 return 2;
             }
         }
