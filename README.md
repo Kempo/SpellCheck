@@ -1,4 +1,4 @@
-# TextPredictor
-console-based word prediction program that utilises a customized algorithm to guess user input
+# SpellCheck
+console-based word prediction program that utilises a customized algorithm to correct user inputted words
 # Author
 Aaron Chen
