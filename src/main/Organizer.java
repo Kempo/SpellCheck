@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Aaron
@@ -15,6 +13,7 @@ import java.util.List;
 public class Organizer {
     private ArrayList<String> wordList = new ArrayList<String>();
     private String source = "http://app.aspell.net/create?max_size=95&spelling=US&spelling=GBs&spelling=GBz&spelling=CA&spelling=AU&max_variant=0&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline";
+    private final double ACCEPTANCE_THRESHOLD = .5D;
 
     public void loadList() throws IOException {
         URL url = new URL(source);
@@ -35,12 +34,10 @@ public class Organizer {
         System.out.println("Successfully loaded " + wordList.size() + " words.");
     }
 
-    public ArrayList<String> getLoadedWords() {
-        return wordList;
-    }
-
-
-    // 1) returns a list of words that have the same first and last letter
+    /**
+     * @param word
+     * @return a list of words based upon the first and last letter of the input
+     */
     public ArrayList<String> getGroupBasedOnTerminalLetter(String word) {
         ArrayList<String> group = new ArrayList<>();
         String first = String.valueOf(word.charAt(0));
@@ -53,7 +50,11 @@ public class Organizer {
         return group;
     }
 
-    // 2) returns a list of words that have the same # of syllables
+    /**
+     * @param word
+     * @param wordsByTerminalLetter
+     * @return a list of words with the same amount of syllables as the input
+     */
     public ArrayList<String> getGroupBySyllables(String word, ArrayList<String> wordsByTerminalLetter) {
         ArrayList<String> group = new ArrayList<>();
         int originalSyllables = getSyllables(word);
@@ -74,11 +75,6 @@ public class Organizer {
         word = word.toUpperCase();
         int syllables = 0; // number of syllables our input word has
         char[] vowels = {'A', 'E', 'I', 'O', 'U', 'Y'};
-        /**
-         certain vowel pairs = one syllable such as EA, IE, OU, EE, YO, OO, OA(if not last letters), EO, AY, EU
-         other vowel pairs = two syllables, UA, IO, OA(if last letter)
-         note: 'y' at the end is a syllable,
-         **/
         char[] characters = word.toCharArray();
 
         for (int i = 0; i <= characters.length - 1; i++) {
@@ -89,7 +85,7 @@ public class Organizer {
                         if (!isVowel(nextChar)) { // if a vowel is alone
                             syllables++;
                         } else {
-                            syllables += getSyllablesFromPair(characters, i, i+1);
+                            syllables += getSyllablesFromPair(characters, i, i + 1);
                             if ((i + 1) != characters.length - 1) { // if the vowel is not the last character in the word
                                 i += 2; // move up index two spaces in order to skip the two letters that have been already examined
                             }
@@ -113,19 +109,24 @@ public class Organizer {
         return false;
     }
 
+    /**
+     * @param characters
+     * @param i
+     * @param i1
+     * @return number of syllables from the vowel pair
+     */
     private int getSyllablesFromPair(char[] characters, int i, int i1) {
         String pair = characters[i] + "" + characters[i1]; // supposedly an inefficient way of doing so, maybe improve later
-        String[] one = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU", "EY"}; // one syllable vowel pairs
-        String[] two = {"IO", "OA"}; // two syllable vowel pairs
-        String[] varying = {"UA"}; // vowel pairs that may vary in syllables according to the word such as UA
-        // guanine, antisexual, sensual, guard, manual, lingua
-        // IF THE LETTER before UA is part of another vowel 'sound' then UA is two vowels. if the letter isn't part of a vowel sound, UA = 1
-        for(String s : varying) {
-            if(pair.equalsIgnoreCase(s)) {
-                if((i != 0)) { // if the pair is not the first two characters of the word; it shouldn't be i think
-                    if(((i-1) == 0) || ((i1) == (characters.length - 1)) || ((i1 + 1) == (characters.length-1))) { // if the character before the pair is the first letter or if the character after the pair is the last or if the pair is the last part to the word
+        String[] one = {"EA", "IE", "OU", "EE", "YO", "OO", "EO", "AY", "EU", "EY", "OE"}; // one syllable vowel pairs
+        String[] two = {"IO"}; // two syllable vowel pairs
+        String[] varying = {"UA", "OA"}; // vowel pairs that may vary in syllables according to the word such as UA
+
+        for (String s : varying) {
+            if (pair.equalsIgnoreCase(s)) {
+                if ((i != 0)) { // if the pair is not the first two characters of the word; it shouldn't be i think
+                    if (((i - 1) == 0) || ((i1) == (characters.length - 1)) || ((i1 + 1) == (characters.length - 1))) { // if the character before the pair is the first letter or if the character after the pair is the last or if the pair is the last part to the word
                         return 1;
-                    }else{
+                    } else {
                         return 2;
                     }
                 }
@@ -144,7 +145,11 @@ public class Organizer {
         return 0;
     }
 
-    // 3) returns a hash map with words and their % closest to target word.
+    /**
+     * @param word
+     * @param wordsBySyllables
+     * @return a list of words based upon the percentage closest to the input word
+     */
     public ArrayList<Word> getGroupBasedOnPercentage(String word, ArrayList<String> wordsBySyllables) {
         char[] inputCharacters = word.toCharArray();
         ArrayList<Word> group = new ArrayList<>();
@@ -185,7 +190,7 @@ public class Organizer {
                 }
             }
             percent = ((double) similarities) / sampleWord.length();
-            if (percent >= .5) {
+            if (percent >= ACCEPTANCE_THRESHOLD) {
                 group.add(new Word(sampleWord, percent));
             }
         }

@@ -8,14 +8,12 @@ import java.util.*;
  * http://app.aspell.net/create?max_size=95&spelling=US&spelling=GBs&spelling=GBz&spelling=CA&spelling=AU&max_variant=0&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline
  *
  * @author Aaron
- * text analyzer that will predict user input based on incorrectly spelled sentences or words.
+ * text analyzer that will guess user input based on incorrectly spelled words.
  *
  * algorithm:
- * 1) based on first letter
- * 2) based on last letter
- * - list of words based off first and last letter
- * 3) percent covered (50% > to be accepted)
- * 4) based on # of syllables
+ * 1) based on first letter and last letter
+ * 2) percent similarity (50% > to be accepted)
+ * 3) based on # of syllables
  *
  * TESTING PURPOSES:
  * pygeun
@@ -41,6 +39,7 @@ public class Analyzer {
         if (organizer != organizerInstance) {
             organizerInstance = organizer;
         }
+
         System.out.println("Please enter a word.");
         String line = scanner.nextLine();
         userInput = line;
@@ -56,22 +55,21 @@ public class Analyzer {
     private void display() {
         if (!isDuplicate(userInput, predictedInput)) {
             System.out.println("input: " + userInput);
-            String list = "";
-
-            int i = 1;
-            for (Word w : predictedInput) {
-                list += w.getWord() + (i != 6 ? ", " : ".");
-                i += 1;
-                if(i > 6) { // returns the top 6 choices for the word
-                    break;
-                }
-            }
-
-            System.out.println("predictions: " + list);
+            System.out.println("predictions: " + getTopWords(6, predictedInput));
 
         } else {
             System.out.println("Correctly spelled text.");
         }
+    }
+
+    private String getTopWords(int num, List<Word> words) {
+        String list = "";
+        int i = 1;
+        while((i <= num) && (words.size() != i)) {
+            list += words.get(i).getWord() + (i != 6 ? ", " : ".");
+            i += 1;
+        }
+        return list;
     }
 
     private boolean isDuplicate(String userInput, List<Word> predicted) {
