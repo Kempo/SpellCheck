@@ -62,6 +62,12 @@ public class Analyzer {
         }
     }
 
+    /**
+     *
+     * @param num
+     * @param words
+     * @return string of the top (num) words of the list
+     */
     private String getTopWords(int num, List<Word> words) {
         String list = "";
         int i = 1;
@@ -81,6 +87,11 @@ public class Analyzer {
         return false;
     }
 
+    /**
+     *
+     * @param inputWord
+     * @return list of words based upon percentage similarity, syllables, and terminal letters
+     */
     private List<Word> getWordList(String inputWord) {
         List<Word> wordGroup = organizerInstance.getGroupBasedOnPercentage(inputWord, organizerInstance.getGroupBySyllables(inputWord, organizerInstance.getGroupBasedOnTerminalLetter(inputWord)));
         Collections.sort(wordGroup, new SimilarityComparator()); // sorts the list
