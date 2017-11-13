@@ -32,31 +32,19 @@ import java.util.*;
 public class Analyzer {
     private String userInput;
     private List<Word> predictedInput;
-    private Scanner scanner = new Scanner(System.in);
     private Organizer organizerInstance;
 
     public void start(Organizer organizer) throws IOException {
-        if (organizer != organizerInstance) {
-            organizerInstance = organizer;
-        }
-
-        System.out.println("Please enter a word.");
-        String line = scanner.nextLine();
-        userInput = line;
+        organizerInstance = organizer;
+        userInput = ""; //input case
         predictedInput = getWordList(userInput);
-        display();
-        System.out.println("New word? Y/N.");
-        line = scanner.nextLine();
-        if (line.equalsIgnoreCase("Y")) {
-            start(organizerInstance);
-        }
+        display(); // console output
     }
 
     private void display() {
         if (!isDuplicate(userInput, predictedInput)) {
             System.out.println("input: " + userInput);
             System.out.println("predictions: " + getTopWords(6, predictedInput));
-
         } else {
             System.out.println("Correctly spelled text.");
         }
@@ -72,7 +60,7 @@ public class Analyzer {
         String list = "";
         int i = 1;
         while((i <= num) && (words.size() != i)) {
-            list += words.get(i).getWord() + (i != 6 ? ", " : ".");
+            list += words.get(i).getWord() + (i != num ? ", " : ".");
             i += 1;
         }
         return list;
