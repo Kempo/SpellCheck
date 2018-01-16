@@ -37,8 +37,10 @@ public class Analyzer {
     public void start(Organizer organizer) throws IOException {
         organizerInstance = organizer;
         userInput = ""; //input case
-        predictedInput = getWordList(userInput);
-        display(); // console output
+        if(!userInput.isEmpty()) {
+            predictedInput = getWordList(userInput);
+            display(); // console output
+        }
     }
 
     private void display() {
