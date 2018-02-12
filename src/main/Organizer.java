@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class Organizer {
     private ArrayList<String> wordList = new ArrayList<String>();
-    private String source = "http://app.aspell.net/create?max_size=95&spelling=US&spelling=GBs&spelling=GBz&spelling=CA&spelling=AU&max_variant=0&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline";
+    private String source = "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt";
     private final double ACCEPTANCE_THRESHOLD = .5D;
 
     public void loadList() throws IOException {
