@@ -20,11 +20,7 @@ import java.util.*;
  * epephany
  * Epiphany
  *
- * TO-DO:
- * - add a graphical user interface (incorporate javaFX because it's easier to use?)
- * - another additional method to use could be similar pronunciations s such as 'k' instead of 'c' or such. (more than just one letter differences)
- * - update it so you can use sentences. perhaps, multiple options of the sentence
- *
+ * TODO: integrate with web, expand algorithm to accept sentences, and add another additional method to take into account similar prononciations (ie. 'k' and 'c')
  */
 
 
