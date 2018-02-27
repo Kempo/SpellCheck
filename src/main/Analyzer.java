@@ -26,6 +26,8 @@ import java.util.*;
  * - add a graphical user interface (incorporate javaFX because it's easier to use?)
  * - another additional method to use could be similar pronunciations s such as 'k' instead of 'c' or such. (more than just one letter differences)
  * - update it so you can use sentences. perhaps, multiple options of the sentence
+ * - Make it so it will show suggestions for a word even if it is correctly spelled
+ * - Search for correctly spelled words inside a misspelled word
  */
 
 
@@ -36,20 +38,19 @@ public class Analyzer {
 
     public void start(Organizer organizer) throws IOException {
         organizerInstance = organizer;
-        userInput = ""; //input case
+        userInput = "Home"; //input case
         if(!userInput.isEmpty()) {
-            predictedInput = getWordList(userInput);
+            predictedInput = getWordList(userInput.toLowerCase());
             display(); // console output
         }
     }
 
     private void display() {
-        if (!isDuplicate(userInput, predictedInput)) {
-            System.out.println("input: " + userInput);
-            System.out.println("predictions: " + getTopWords(6, predictedInput));
-        } else {
+        if (isDuplicate(userInput, predictedInput)) {
             System.out.println("Correctly spelled text.");
         }
+        System.out.println("Input: " + userInput);
+        System.out.println("Predictions: " + getTopWords(6, predictedInput));
     }
 
     /**
@@ -69,10 +70,13 @@ public class Analyzer {
     }
 
     private boolean isDuplicate(String userInput, List<Word> predicted) {
+        int i = 0;
         for (Word word : predicted) {
             if (word.getWord().equalsIgnoreCase(userInput)) {
+                predictedInput.remove(i);
                 return true;
             }
+            i++;
         }
         return false;
     }

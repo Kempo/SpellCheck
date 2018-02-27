@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * test
  * @author Aaron
  */
 public class Organizer {
@@ -81,7 +80,7 @@ public class Organizer {
         for (int i = 0; i <= characters.length - 1; i++) {
             for (char v : vowels) {
                 if (characters[i] == v) {
-                    if (i != (characters.length - 1)) { // if it isn't the last word
+                    if (i != (characters.length - 1)) { // if it isn't the last character
                         char nextChar = characters[i + 1];
                         if (!isVowel(nextChar)) { // if a vowel is alone
                             syllables++;
