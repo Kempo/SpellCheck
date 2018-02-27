@@ -2,10 +2,12 @@ package com.kempo.spellcheck;
 
 import static spark.Spark.port;
 import static spark.Spark.get;
+import static spark.Spark.staticFileLocation;
 
 public class Server {
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
+        staticFileLocation("/public");
         get("/ping", (req, res) -> "pong!");
     }
 
