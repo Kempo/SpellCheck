@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kempo.spellcheck</groupId>
-    <artifactId>SpellChecker</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>SpellChecker</name>
+    <artifactId>kempo-spellchecker</artifactId>
+    <version>1.0</version>
+    <name>kempo-spellchecker</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
