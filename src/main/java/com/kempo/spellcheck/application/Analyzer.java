@@ -1,3 +1,5 @@
+package com.kempo.spellcheck.application;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -20,7 +22,6 @@ import java.util.*;
  * epephany
  * Epiphany
  *
- * TODO: integrate with web, expand algorithm to accept sentences, and add another additional method to take into account similar prononciations (ie. 'k' and 'c')
  */
 
 
