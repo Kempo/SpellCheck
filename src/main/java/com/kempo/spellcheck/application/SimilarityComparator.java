@@ -1,4 +1,4 @@
-package main;
+package com.kempo.spellcheck.application;
 
 import java.util.Comparator;
 

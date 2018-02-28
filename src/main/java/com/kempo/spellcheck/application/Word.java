@@ -1,4 +1,4 @@
-package main;
+package com.kempo.spellcheck.application;
 
 public class Word {
     private String word;
