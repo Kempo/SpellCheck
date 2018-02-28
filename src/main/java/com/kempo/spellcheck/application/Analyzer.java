@@ -38,11 +38,14 @@ public class Analyzer {
 
     public void start(Organizer organizer) throws IOException {
         organizerInstance = organizer;
-        userInput = "Home"; //input case
         if(!userInput.isEmpty()) {
             predictedInput = getWordList(userInput.toLowerCase());
             display(); // console output
         }
+    }
+
+    public void setInput(String s) {
+        userInput = s;
     }
 
     private void display() {
