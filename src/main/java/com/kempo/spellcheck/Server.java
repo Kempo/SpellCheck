@@ -1,14 +1,30 @@
 package com.kempo.spellcheck;
 
-import static spark.Spark.port;
-import static spark.Spark.get;
-import static spark.Spark.staticFileLocation;
+import com.kempo.spellcheck.application.Analyzer;
+import com.kempo.spellcheck.application.Organizer;
+
+import static spark.Spark.*;
 
 public class Server {
+    /**
+     * perhaps not the best way to go about initializing objects
+     */
+    public final static Organizer organizer = new Organizer();
+    public final static Analyzer analyzer = new Analyzer();
+
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
         staticFileLocation("/public");
         get("/ping", (req, res) -> "pong!");
+
+        post("/word", (req, res) -> {
+            String word = req.queryParams("inputData");
+            organizer.loadList();
+            analyzer.setInput(word);
+            analyzer.start(organizer);
+            String result = analyzer.getPredictedInput();
+            return result;
+        });
     }
 
     static int getHerokuAssignedPort() {

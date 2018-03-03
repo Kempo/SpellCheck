@@ -40,7 +40,7 @@ public class Analyzer {
         organizerInstance = organizer;
         if(!userInput.isEmpty()) {
             predictedInput = getWordList(userInput.toLowerCase());
-            display(); // console output
+            //display(); // console output
         }
     }
 
@@ -55,6 +55,12 @@ public class Analyzer {
         System.out.println("Input: " + userInput);
         System.out.println("Predictions: " + getTopWords(6, predictedInput));
     }
+
+    public String getPredictedInput() {
+        return getTopWords(6, predictedInput);
+    }
+
+
 
     /**
      *
