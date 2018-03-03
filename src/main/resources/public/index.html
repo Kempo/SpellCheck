@@ -4,12 +4,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
     	$("#submitWord").click(function() {
-                //toggleLoading();
                 var str = $("#submissionForm").serialize();
                 $.post("/word", str, function(data, error) {
-                    data = data.replace(/\n/g, "<br>");
                     $("#output").contents().find("body").html(data);
-                //toggleLoading();
                 });
             }); 
     </script>
@@ -19,7 +16,7 @@
 <body>
     <form id="submissionForm">
     	Input: <input type="text" value="" name="inputData">
-    	<input type="submit" value="Submit" id="submitWord">
+    	<input type="button" value="Submit" id="submitWord">
     </form>
 
     <iframe name="output" id="output"> </iframe>
