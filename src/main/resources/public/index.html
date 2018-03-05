@@ -2,9 +2,15 @@
 <head>
     <title> SpellCheck </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <script type="text/javascript">
-    alert("page loaded!");
+        window.onload = function() {
+        Particles.init({
+                selector: '.background',
+                color: ['#DA0463', '#404B69', '#DBEDF3'],
+                connectParticles: true
+            });
+       };
+
     $(document).ready(function(){
         $("#submitWord").click(function() {
             var str = $("#submissionForm").serialize();
@@ -14,16 +20,31 @@
         });
     });
     </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 
 <body>
-    <form id="submissionForm">
-    	Input: <input type="text" name="inputData">
-    	<input type="button" value="Submit" id="submitWord">
-    </form>
+    <div class="container">
+    <div class="middle">
+        <div class="content">
+            <div id="submissionDiv">
+                <form id="submissionForm">
+    	           Input: <input type="text" name="inputData">
+    	           <input type="button" value="Submit" id="submitWord">
+                </form>
+            </div>
 
-    <iframe name="output" id="output"> </iframe>
+            <div id="outputDiv">
+                <p> Output: </p>
+                <iframe name="output" id="output"> </iframe>
+            </div>
+        </div>
+    </div>
+    </div>
 
+
+    <canvas class="background"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.1/particles.min.js"></script>
 </body>
 </html>

@@ -24,7 +24,6 @@ public class Server {
             analyzer.setInput(word);
             analyzer.start(organizer);
             String result = analyzer.getPredictedInput();
-            System.out.println("output=" + result);
             return result;
         });
     }
