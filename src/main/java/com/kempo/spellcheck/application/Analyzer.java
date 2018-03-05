@@ -36,11 +36,11 @@ public class Analyzer {
     private List<Word> predictedInput;
     private Organizer organizerInstance;
 
-    public void start(Organizer organizer) throws IOException {
+    public void start(Organizer organizer) {
         organizerInstance = organizer;
         if(!userInput.isEmpty()) {
             predictedInput = getWordList(userInput.toLowerCase());
-            //display(); // console output
+            display(); // console output
         }
     }
 
@@ -53,7 +53,7 @@ public class Analyzer {
             System.out.println("Correctly spelled text.");
         }
         System.out.println("Input: " + userInput);
-        System.out.println("Predictions: " + getTopWords(6, predictedInput));
+        System.out.println("Predictions: " + getPredictedInput());
     }
 
     public String getPredictedInput() {
