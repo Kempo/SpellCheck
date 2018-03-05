@@ -19,6 +19,7 @@ public class Server {
 
         post("/word", (req, res) -> {
             String word = req.queryParams("inputData");
+            System.out.println("analyzing request with: " + word);
             organizer.loadList();
             analyzer.setInput(word);
             analyzer.start(organizer);

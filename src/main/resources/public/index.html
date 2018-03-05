@@ -2,26 +2,28 @@
 <head>
     <title> SpellCheck </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script type="text/javascript">
-    	$("#submitWord").click(function() {
-                var str = $("#submissionForm").serialize();
-                $.post("/word", str, function(data, error) {
-                    $("#output").contents().find("body").html(data);
-                });
-            }); 
+    alert("page loaded!");
+    $(document).ready(function(){
+        $("#submitWord").click(function() {
+            var str = $("#submissionForm").serialize();
+            $.post("/word", str, function(data, error) {
+                $("#output").contents().find("body").html(data);
+            });
+        });
+    });
     </script>
 </head>
 
 
 <body>
     <form id="submissionForm">
-    	Input: <input type="text" value="" name="inputData">
-
+    	Input: <input type="text" name="inputData">
     	<input type="button" value="Submit" id="submitWord">
     </form>
 
     <iframe name="output" id="output"> </iframe>
-
 
 </body>
 </html>
