@@ -52,6 +52,8 @@ h {
 
 #whiteBackground {
   background-color: white;
+    margin: 0 auto;
+    width: 500px;
 }
 
 .container {
