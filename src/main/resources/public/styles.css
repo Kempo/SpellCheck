@@ -8,6 +8,7 @@
   border-width: 1px;
   border-color: #CCC;
   height: 40px;
+  vertical-align: top;
 }
 
 #submitWord {
@@ -15,8 +16,10 @@
   -webkit-transition: 600ms all;
   -moz-transition: 600ms all;
   transition: 600ms all;
-  border-style: none;
-  background-color: #CCC;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #CCC;
+  border-radius: 2px;
   font-size: 3vh;
   color: white;
   height: 40px;
@@ -60,4 +63,12 @@
   width: 40%;
 }
 
+#output {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  border-color: #CCC;
+  background-color: white;
+  width: 75%;
+}
 
