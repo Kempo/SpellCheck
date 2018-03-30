@@ -9,9 +9,15 @@
         window.onload = function() {
         Particles.init({
                 selector: '.background',
-                color: [randomColor(), randomColor(), randomColor()],
-                connectParticles: true,
-                maxParticles: 110,
+                color: [randomColor({
+                    luminosity: 'bright'
+                }), randomColor({
+                    luminosity: 'bright'
+                }), randomColor({
+                    luminosity: 'bright'
+                })],
+                connectParticles: false,
+                maxParticles: 150,
                 speed: .5
             });
        };
