@@ -38,9 +38,12 @@ public class Analyzer {
 
     public void start(Organizer organizer) throws IOException {
         organizerInstance = organizer;
-        if(!userInput.isEmpty()) {
-            predictedInput = getWordList(userInput.toLowerCase());
-            //display(); // console output
+        ArrayList<String> wordsInSentence = separateWordsInSentence(userInput);
+        for(int i = 0; i <= wordsInSentence.size() - 1; i++) {
+            if (!wordsInSentence.get(i).isEmpty()) {
+                predictedInput = getWordList(wordsInSentence.get(i));
+                display(wordsInSentence.get(i)); // console output
+            }
         }
     }
 
@@ -48,16 +51,17 @@ public class Analyzer {
         userInput = s;
     }
 
-    private void display() {
-        if (isDuplicate(userInput, predictedInput)) {
-            System.out.println("Correctly spelled text.");
+    private void display(String input) {
+        System.out.println();
+        if (isDuplicate(input, predictedInput)) {
+            System.out.println("Correctly spelled word.");
         }
-        System.out.println("Input: " + userInput);
-        System.out.println("Predictions: " + getTopWords(6, predictedInput));
+        System.out.println("Input: " + input);
+        System.out.println("Predictions: " + getTopWords(3, predictedInput));
     }
 
     public String getPredictedInput() {
-        return getTopWords(6, predictedInput);
+        return getTopWords(3, predictedInput);
     }
 
 
@@ -100,5 +104,14 @@ public class Analyzer {
         Collections.sort(wordGroup, new SimilarityComparator()); // sorts the list
         Collections.reverse(wordGroup); // reverses order so the first object is closest
         return wordGroup;
+    }
+
+    private static ArrayList<String> separateWordsInSentence(String userInput){
+        Scanner breakApart = new Scanner(userInput);
+        ArrayList<String> words = new ArrayList<String>();
+        while(breakApart.hasNext()){
+            words.add(breakApart.next().toLowerCase());
+        }
+        return words;
     }
 }

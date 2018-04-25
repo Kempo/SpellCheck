@@ -69,6 +69,12 @@ public class Organizer {
 
     /**
      * @param word
+     * @param wordsBySplit
+     * @return a list of words that are similar based on adding a space
+     */
+
+    /**
+     * @param word
      * @return number of syllables in word
      */
     public int getSyllables(String word) {

@@ -9,7 +9,7 @@ public class OperatorTest {
 
     @Test
     public void start() throws Exception {
-        analyzer.setInput("Home");
+        analyzer.setInput("Graham iz kewl");
         organizerInstance.loadList();
         analyzer.start(organizerInstance);
     }
