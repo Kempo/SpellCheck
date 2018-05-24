@@ -12,14 +12,15 @@ public class Server {
     public final static Organizer organizer = new Organizer();
     public final static Analyzer analyzer = new Analyzer();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         port(getHerokuAssignedPort());
         staticFileLocation("/public");
+        organizer.loadList();
         get("/ping", (req, res) -> "pong!");
 
         post("/word", (req, res) -> {
             String word = req.queryParams("inputData");
-            organizer.loadList();
+            System.out.println("analyzing request with: " + word);
             analyzer.setInput(word);
             analyzer.start(organizer);
             String result = analyzer.getPredictedInput();
