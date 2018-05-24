@@ -14,6 +14,7 @@ public class Organizer {
     private ArrayList<String> wordList = new ArrayList<String>();
     private String source = "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt";
     private final double ACCEPTANCE_THRESHOLD = .5D;
+    private String adjectives = "https://www.d.umn.edu/~rave0029/research/adjectives1.txt";
 
     public void loadList() throws IOException {
         URL url = new URL(source);

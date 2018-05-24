@@ -36,6 +36,12 @@ public class Analyzer {
     private List<Word> predictedInput;
     private Organizer organizerInstance;
 
+    /**
+     * This is the main method that does everything.
+     * Goes through and calls the methods that get the word list of best predictions and displays the inputted word along with its suggestions.
+     * @param organizer
+     * @throws IOException
+     */
     public void start(Organizer organizer) throws IOException {
         organizerInstance = organizer;
         ArrayList<String> wordsInSentence = separateWordsInSentence(userInput);
@@ -67,7 +73,7 @@ public class Analyzer {
 
 
     /**
-     *
+     * Gets the top predicted words based on the organizer class
      * @param num
      * @param words
      * @return string of the top (num) words of the list
@@ -82,6 +88,12 @@ public class Analyzer {
         return list;
     }
 
+    /**
+     * Checks to see if the user inputted word is one of the predicted words
+     * @param userInput
+     * @param predicted the list of predicted words
+     * @return whether the user input is one of the predicted words
+     */
     private boolean isDuplicate(String userInput, List<Word> predicted) {
         int i = 0;
         for (Word word : predicted) {
@@ -95,7 +107,7 @@ public class Analyzer {
     }
 
     /**
-     *
+     * Gets the list of predicted words based on the input
      * @param inputWord
      * @return list of words based upon percentage similarity, syllables, and terminal letters
      */
@@ -106,6 +118,11 @@ public class Analyzer {
         return wordGroup;
     }
 
+    /**
+     * Takes out each individual word from the user input to be checked separately
+     * @param userInput
+     * @return returns each word from the sentence
+     */
     private static ArrayList<String> separateWordsInSentence(String userInput){
         Scanner breakApart = new Scanner(userInput);
         ArrayList<String> words = new ArrayList<String>();
