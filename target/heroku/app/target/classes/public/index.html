@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title> SpellCheck </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+        Particles.init({
+                selector: '.background',
+                color: [randomColor(), randomColor(), randomColor()],
+                connectParticles: true,
+                maxParticles: 110,
+                speed: .5
+            });
+       };
+
+    $(document).ready(function(){
+        $("#submitWord").click(function() {
+            var str = $("#submissionForm").serialize();
+            $.post("/word", str, function(data, error) {
+                $("#output").contents().find("body").html(data);
+            });
+        });
+    });
+
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+    <div class="container">
+    <div class="middle">
+        <div class="content">
+            <div id="submissionDiv">
+                <form id="submissionForm">
+    	            <input type="text" name="inputData" id="inputTextBox">
+    	            <input type="button" value="Submit" id="submitWord">
+                </form>
+            </div>    
+
+            <!--
+            <hr>
+            <div id="outputDiv">
+                <iframe name="output" id="output"> </iframe>
+            </div>
+            -->
+
+         </div>
+    </div>
+    </div>
+
+    <canvas class="background"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.1/particles.min.js"></script>
+</body>
+</html>
