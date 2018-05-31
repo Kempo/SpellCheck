@@ -35,6 +35,7 @@ public class Analyzer {
     private String userInput;
     private List<Word> predictedInput;
     private Organizer organizerInstance;
+    private String finalOutput;
 
     /**
      * This is the main method that does everything.
@@ -70,7 +71,9 @@ public class Analyzer {
         return getTopWords(3, predictedInput);
     }
 
-
+    public String getFinalOutput() {
+        return finalOutput;
+    }
 
     /**
      * Gets the top predicted words based on the organizer class
@@ -85,6 +88,7 @@ public class Analyzer {
             list += words.get(i).getWord() + (i != num ? ", " : ".");
             i += 1;
         }
+        finalOutput += list;
         return list;
     }
 

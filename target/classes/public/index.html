@@ -9,9 +9,15 @@
         window.onload = function() {
         Particles.init({
                 selector: '.background',
-                color: [randomColor(), randomColor(), randomColor()],
-                connectParticles: true,
-                maxParticles: 110,
+                color: [randomColor({
+                    luminosity: 'bright'
+                }), randomColor({
+                    luminosity: 'bright'
+                }), randomColor({
+                    luminosity: 'bright'
+                })],
+                connectParticles: false,
+                maxParticles: 175,
                 speed: .5
             });
        };
@@ -23,6 +29,8 @@
                 $("#output").contents().find("body").html(data);
             });
         });
+
+        
     });
 
     </script>
@@ -41,12 +49,10 @@
                 </form>
             </div>    
 
-            <!--
-            <hr>
             <div id="outputDiv">
                 <iframe name="output" id="output"> </iframe>
             </div>
-            -->
+            
 
          </div>
     </div>

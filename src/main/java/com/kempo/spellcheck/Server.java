@@ -23,7 +23,7 @@ public class Server {
             System.out.println("analyzing request with: " + word);
             analyzer.setInput(word);
             analyzer.start(organizer);
-            String result = analyzer.getPredictedInput();
+            String result = analyzer.getFinalOutput();
             return result;
         });
     }
